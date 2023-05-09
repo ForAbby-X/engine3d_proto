@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 20:13:54 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/08 06:08:48 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:33:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ static inline void	__init_game(t_game *game)
 	while (i < game->length)
 	{
 		poly = game->polygons + i;
-		poly->pos[0] = (t_v2f){ft_rand(100.f, 780.f), ft_rand(12.0f, 600.0f)};
-		poly->pos[1] = (t_v2f){ft_rand(100.f, 780.f), ft_rand(12.0f, 600.0f)};
-		poly->pos[2] = (t_v2f){ft_rand(100.f, 780.f), ft_rand(12.0f, 600.0f)};
-		poly->col = ft_color_f(0.f, ft_rand(.1f, .7f), .75f, ft_rand(.1f, .7f));
 		i++;
 	}
 }
@@ -42,10 +38,10 @@ static inline int	__loop(t_engine *eng, void *data, double et)
 	while (i < game->length)
 	{
 		poly = game->polygons + i;
-		ft_put_tri(eng,
-			(t_v2i){poly->pos[0][0], poly->pos[0][1]},
-			(t_v2i){poly->pos[1][0], poly->pos[1][1]},
-			(t_v2i){poly->pos[2][0], poly->pos[2][1]}, poly->col);
+		// ft_put_tri(eng,
+		// 	(t_v2i){poly->pos[0][0], poly->pos[0][1]},
+		// 	(t_v2i){poly->pos[1][0], poly->pos[1][1]},
+		// 	(t_v2i){poly->pos[2][0], poly->pos[2][1]}, poly->col);
 		i++;
 	}
 	return (1);

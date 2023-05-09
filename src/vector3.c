@@ -1,45 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec2f_algo.c                                       :+:      :+:    :+:   */
+/*   vector3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 07:59:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/09 18:49:07 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/05/09 18:47:13 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/05/09 19:05:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec2.h"
+#include "vec3.h"
 
-t_v2f	ft_v2fr(float r, float d)
+t_v3f	ft_v3fr(float phi, float theta, float d)
 {
-	return ((t_v2f){cosf(r), sinf(r)} * d);
+	return ((t_v3f){
+		sinf(theta) * cosf(phi),
+		sinf(theta) * sinf(phi),
+		cosf(theta)} * d);
 }
 
-float	ft_v2fmag(t_v2f a)
+float	ft_v3fmag(t_v3f a)
 {
 	a *= a;
-	return (sqrtf(a[0] + a[1]));
+	return (sqrtf(a[0] + a[1] + a[2]));
 }
 
-float	ft_v2fdot(t_v2f a, t_v2f b)
+float	ft_v3fdot(t_v3f a, t_v3f b)
 {
 	a *= b;
 	return (a[0] + a[1]);
 }
 
-float	ft_v2fcross(t_v2f a, t_v2f b)
+float	ft_v3fcross(t_v3f a, t_v3f b)
 {
-	return (a[0] * b[1] - a[1] * b[0]);
+	return ((t_v3f){
+	a[z],
+	0.0f,
+	0.0f
+	});
 }
 
-t_v2f	ft_v2fnorm(t_v2f a, float n)
+t_v3f	ft_v3fnorm(t_v3f a, float n)
 {
 	float	mag;
 
-	mag = ft_v2fmag(a);
+	mag = ft_v3fmag(a);
 	if (mag == 0.0f)
-		return ((t_v2f){0.0f, 0.0f});
+		return ((t_v3f){0.0f, 0.0f, 0.0f});
 	return (a / mag * n);
 }

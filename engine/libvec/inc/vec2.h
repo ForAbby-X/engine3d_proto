@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:27:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/23 13:10:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:08:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # define _USE_MATH_DEFINES
 # include <math.h>
+
+enum e_xy{
+	x = 0,
+	y = 1
+};
 
 typedef float			t_v2f __attribute__((vector_size (8)));
 typedef unsigned int	t_v2u __attribute__((vector_size (8)));
@@ -31,21 +36,4 @@ t_v2f	ft_v2fnorm(t_v2f a, float n);
 // INT
 t_v2i	ft_v2irot(t_v2i a, float r);
 
-struct s_v2f
-{
-	float	x;
-	float	y;
-};
-
-struct s_v2u
-{
-	unsigned int	x;
-	unsigned int	y;
-};
-
-struct s_v2i
-{
-	int	x;
-	int	y;
-};
 #endif
