@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:47:13 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/10 04:59:54 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:06:58 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ t_v3f	v3f_rot2(t_v3f vec, float phi, float theta)
 		vec[x] * cosf(theta) - vec[y] * sinf(theta),
 		vec[x] * sinf(theta) + vec[y] * cosf(theta),
 		vec[z]});
+}
+
+t_v3f	v3f_rot3(t_v3f vec, float phi, float theta)
+{
+	(void)theta;
+	return ((t_v3f){
+		vec[x],
+		vec[y] * cosf(phi) - vec[z] * sinf(phi),
+		vec[y] * sinf(phi) + vec[z] * cosf(phi)});
 }
 
 float	v3f_mag(t_v3f a)

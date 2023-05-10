@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 18:45:49 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/10 03:38:39 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:06:54 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef unsigned int	t_v3u __attribute__((vector_size (16)));
 typedef int				t_v3i __attribute__((vector_size (16)));
 
 t_v3f	v3f_rot2(t_v3f vec, float phi, float theta);
+t_v3f	v3f_rot3(t_v3f vec, float phi, float theta);
 float	v3f_mag(t_v3f a);
 float	v3f_dot(t_v3f a, t_v3f b);
 t_v3f	v3f_cross(t_v3f a, t_v3f b);
