@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine3d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 05:21:46 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/09 20:47:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/10 06:29:20 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "engine.h"
 # include "vec3.h"
+
+typedef struct s_tri
+{
+	t_v2i	pos[3];
+}	t_tri;
 
 typedef struct s_polygon
 {
@@ -25,16 +30,17 @@ typedef struct s_game
 {
 	t_polygon	polygons[2048];
 	t_length	length;
+	t_v2f		cam_rot;
+	t_v3f		cam_pos;
 }	t_game;
 
-static const t_polygon	g_cube_mesh[]
+static const t_polygon	g_test_mesh[]
 	= {
-{(t_v3f){0.0f, 0.0f, 0.0f}, (t_v3f){0.0f, 1.0f, 0.0f}, (t_v3f){1.0f, 0.0f, 0.0f}},
-{(t_v3f){0.0f, 0.0f, 0.0f}, (t_v3f){1.0f, 0.0f, 0.0f}, (t_v3f){0.0f, 0.0f, 1.0f}},
-{(t_v3f){0.0f, 1.0f, 0.0f}, (t_v3f){1.0f, 0.0f, 0.0f}, (t_v3f){0.0f, 0.0f, 1.0f}}
+{(t_v3f){-5.0f, -5.0f, -5.0f}, (t_v3f){0.0f, 0.0f, 0.0f}, (t_v3f){5.0f, -5.0f, 5.0f}},
+{(t_v3f){0.0f, -5.0f, 0.0f}, (t_v3f){0.0f, 5.0f, 5.0f}, (t_v3f){0.0f, 0.0f, 5.0f}}
 };
 
 void	ft_put_line(t_engine *eng, t_v2i pos1, t_v2i pos2, t_color col);
-void	ft_put_tri(t_engine *eng, t_v2i pos1, t_v2i pos2, t_v2i pos3, t_color col);
+void	ft_put_tri(t_engine *eng, t_tri tri, t_color col);
 
 #endif

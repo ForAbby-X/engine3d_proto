@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 05:21:11 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/08 05:58:47 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/10 04:00:22 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	ft_put_line(t_engine *eng, t_v2i pos1, t_v2i pos2, t_color col)
 	}
 }
 
-void	ft_put_tri(t_engine *eng, t_v2i pos1, t_v2i pos2, t_v2i pos3, t_color col)
+void	ft_put_tri(t_engine *eng, t_tri tri, t_color col)
 {
-	ft_put_line(eng, pos1, pos2, col);
-	ft_put_line(eng, pos2, pos3, col);
-	ft_put_line(eng, pos3, pos1, col);
+	ft_put_line(eng, tri.pos[0], tri.pos[1], col);
+	ft_put_line(eng, tri.pos[1], tri.pos[2], col);
+	ft_put_line(eng, tri.pos[2], tri.pos[0], col);
 }

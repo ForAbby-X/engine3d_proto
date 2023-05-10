@@ -18,7 +18,7 @@ INCDIR	=	-I ./inc
 OBJDIR	=	./obj
 
 # src / includes / obj files
-SRC		= main.c drawing.c vector3.c
+SRC		= main.c drawing.c vec3.c
 
 INC		=	
 
