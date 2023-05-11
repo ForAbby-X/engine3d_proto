@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine3d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 05:21:46 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/11 00:23:08 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/11 01:52:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef struct s_polygon
 
 typedef struct s_game
 {
-	t_polygon	polygons[2048];
+	t_polygon	polygons[4096];
 	t_length	length;
-	t_v2f		cam_rot;
+	t_v3f		cam_rot;
 	t_v3f		cam_pos;
 }	t_game;
 
