@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 20:13:54 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/11 05:38:55 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:04:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static inline void	__init_mesh(t_game *game)
 		while (pos[x] < 10)
 		{
 			game->polygons[pos[x] * 10 + pos[y]] = (t_polygon){
-				(t_v3f){pos[x] + ft_rand(- 0.7f, 0.3f), pos[x] + ft_rand(- 0.3f, 0.7f), 0.0f},
-				(t_v3f){pos[x] + ft_rand(- 0.2f, 0.2f), pos[x] + ft_rand(- 0.2f, 0.2f), ft_rand(-0.5f, -2.0f)},
-				(t_v3f){pos[x] + ft_rand(- 0.3f, 0.7f), pos[x] + ft_rand(- 0.7f, 0.3f), 0.0f}
+				(t_v3f){pos[x] + ft_rand(- 0.7f, 0.3f), pos[y] + ft_rand(- 0.3f, 0.7f), 0.0f},
+				(t_v3f){pos[x] + ft_rand(- 0.2f, 0.2f), pos[y] + ft_rand(- 0.2f, 0.2f), ft_rand(-0.5f, -2.0f)},
+				(t_v3f){pos[x] + ft_rand(- 0.3f, 0.7f), pos[y] + ft_rand(- 0.7f, 0.3f), 0.0f}
 			};
 			pos[x]++;
 		}
@@ -34,15 +34,19 @@ static inline void	__init_mesh(t_game *game)
 	game->length = 100;
 }
 
-static inline void	__init_game(t_game *game)
+static inline void	__init_game(t_game *game, t_engine *eng)
 {
 	ft_putstr_fd("[3D] initialisation...\n", 2);
 	__init_mesh(game);
-	// game->length = sizeof(g_cub_mesh) / sizeof(t_polygon);
-	// memcpy(game->polygons, g_cub_mesh, sizeof(g_cub_mesh));
+	ft_memcpy(game->polygons + game->length, g_cub_mesh, sizeof(g_cub_mesh));
+	game->length += sizeof(g_cub_mesh) / sizeof(t_polygon);
+	ft_memcpy(game->polygons + game->length, g_pyramid_mesh, sizeof(g_pyramid_mesh));
+	game->length += sizeof(g_pyramid_mesh) / sizeof(t_polygon);
 	game->cam_rot = (t_v3f){0.0f, 0.0f, 0.0f};
-	game->cam_pos = (t_v3f){0.0f, -30.0f, 0.0f};
+	game->cam_pos = (t_v3f){0.0f, -20.0f, 0.0f};
 	ft_putstr_fd("[3D] done !\n", 2);
+	game->eng = eng;
+	mlx_mouse_move(eng->mlx, eng->win, 480, 320);
 }
 
 static inline t_v2i	__proj(t_v3f vec, t_v3f cam_pos, t_v3f cam_rot)
@@ -98,7 +102,7 @@ static inline void	__control(t_engine *eng, t_game *game, float et)
 		game->cam_rot[z] = 0.25f;
 	else
 		game->cam_rot[z] = 0.0f;
-	printf("cam_pos[%f:%f:%f]{%f,%f}\n", game->cam_pos[x], game->cam_pos[y], game->cam_pos[z], game->cam_rot[0], game->cam_rot[1]);
+	//printf("cam_pos[%f:%f:%f]{%f,%f}\n", game->cam_pos[x], game->cam_pos[y], game->cam_pos[z], game->cam_rot[0], game->cam_rot[1]);
 }
 
 static inline int	__loop(t_engine *eng, void *data, double et)
@@ -121,6 +125,9 @@ static inline int	__loop(t_engine *eng, void *data, double et)
 		i++;
 	}
 	__control(eng, game, et);
+	game->cam_rot[y] -= ((float)eng->mouse_x - 480) / 500.0f;
+	game->cam_rot[x] += ((float)eng->mouse_y - 320) / 500.0f;
+	mlx_mouse_move(eng->mlx, eng->win, 480, 320);
 	return (1);
 }
 
@@ -132,7 +139,7 @@ int	main(void)
 	eng = ft_eng_create(240 * 4, 160 * 4, "3D Engine");
 	if (eng)
 	{
-		__init_game(&game);
+		__init_game(&game, eng);
 		ft_eng_play(eng, &game, &__loop);
 		ft_eng_destroy(eng);
 	}
