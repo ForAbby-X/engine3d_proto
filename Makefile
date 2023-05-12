@@ -28,7 +28,7 @@ DEPENDS :=	$(patsubst %.o,%.d,$(OBJ))
 -include $(DEPENDS)
 
 # compiler
-CC		= cc
+CC		= clang
 CFLAGS	= -MMD -MP -Wall -Wextra -Werror
 
 # engine library

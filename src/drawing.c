@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 05:21:11 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/11 20:55:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/12 23:29:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ static inline int	_sign(int a, int b)
 	return (-1);
 }
 
+static inline int	_is_out_of_bound(t_engine *eng, t_v2i pos)
+{
+	if (pos[x] < -(int)eng->win_x || pos[y] < -(int)eng->win_y
+		|| pos[x] >= (int)eng->win_x * 2 || pos[y] >= (int)eng->win_y * 2)
+		return (1);
+	return (0);
+}
+
+
 void	ft_put_line(t_engine *eng, t_v2i pos1, t_v2i pos2, t_color col)
 {
 	t_v2i const	diff = {abs(pos2[0] - pos1[0]), -abs(pos2[1] - pos1[1])};
@@ -26,6 +35,8 @@ void	ft_put_line(t_engine *eng, t_v2i pos1, t_v2i pos2, t_color col)
 	int			err;
 	int			e2;
 
+	if (_is_out_of_bound(eng, pos1) || _is_out_of_bound(eng, pos2))
+		return ;
 	spos = (t_v2i){_sign(pos1[0], pos2[0]), _sign(pos1[1], pos2[1])};
 	err = diff[0] + diff[1];
 	while (1)
