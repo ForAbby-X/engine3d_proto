@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 20:13:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/12 23:25:46 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:53:18 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine3d.h"
 
-#define KEYS_AZERTY
+#define KEYS_QWERTY
 #include "keys.h"
 
 static inline void	__init_mesh(t_game *game)
@@ -42,26 +42,26 @@ static inline void	__init_mesh_grid(t_game *game)
 	t_v2i		pos;
 
 	pos[y] = 0;
-	while (pos[y] < 40)
+	while (pos[y] < 100)
 	{
 		pos[x] = 0;
-		while (pos[x] < 40)
+		while (pos[x] < 100)
 		{
-			game->polygons[(pos[x] * 40 + pos[y]) * 2] = (t_polygon){
-				(t_v3f){pos[x], pos[y], pos[x] + pos[y] - 1},
-				(t_v3f){pos[x] + 1, pos[y], pos[x] + pos[y]},
-				(t_v3f){pos[x], pos[y] + 1, pos[x] + pos[y]}
+			game->polygons[(pos[x] * 100 + pos[y]) * 2] = (t_polygon){
+				(t_v3f){pos[x], 0.5f, pos[y]},
+				(t_v3f){pos[x] + 1.0f, 0.0f, pos[y]},
+				(t_v3f){pos[x], 0.0f, pos[y] + 1.0f}
 			};
-			game->polygons[(pos[x] * 40 + pos[y]) * 2 + 1] = (t_polygon){
-				(t_v3f){pos[x] + 1, pos[y] + 1, pos[x] + pos[y] + 1},
-				(t_v3f){pos[x] + 1, pos[y], pos[x] + pos[y]},
-				(t_v3f){pos[x], pos[y] + 1, pos[x] + pos[y]}
+			game->polygons[(pos[x] * 100 + pos[y]) * 2 + 1] = (t_polygon){
+				(t_v3f){pos[x] + 1.0f, 0.5f, pos[y] + 1.0f},
+				(t_v3f){pos[x] + 1.0f, 0.0f, pos[y]},
+				(t_v3f){pos[x], 0.0f, pos[y] + 1.0f}
 			};
 			pos[x]++;
 		}
 		pos[y]++;
 	}
-	game->length = 40*40*2;
+	game->length = 100 * 100 * 2;
 }
 
 static inline void	__init_game(t_game *game, t_engine *eng)
@@ -74,7 +74,7 @@ static inline void	__init_game(t_game *game, t_engine *eng)
 	ft_memcpy(game->polygons + game->length, g_pyramid_mesh, sizeof(g_pyramid_mesh));
 	game->length += sizeof(g_pyramid_mesh) / sizeof(t_polygon);
 	game->cam_rot = (t_v3f){0.0f, 0.0f, 0.0f};
-	game->cam_pos = (t_v3f){0.0f, -20.0f, 0.0f};
+	game->cam_pos = (t_v3f){0.0f, 0.0f, 0.0f};
 	ft_putstr_fd("[3D] done !\n", 2);
 	game->eng = eng;
 	mlx_mouse_move(eng->mlx, eng->win, 480, 320);
@@ -85,12 +85,12 @@ static inline t_v2i	__proj(t_v3f vec, t_v3f cam_pos, t_v3f cam_rot)
 	t_v3f	proj;
 	t_v2f	res;
 
-	proj = v3f_rotz(vec - cam_pos, -cam_rot[y]);
+	proj = v3f_roty(vec - cam_pos, -cam_rot[y]);
 	proj = v3f_rotx(proj, -cam_rot[x]);
-	proj = v3f_roty(proj, -cam_rot[z]);
-	if (proj[y] <= 0.001f)
+	proj = v3f_rotz(proj, -cam_rot[z]);
+	if (proj[z] <= 0.001f)
 		return ((t_v2i){INT32_MIN, INT32_MIN});
-	res = (t_v2f){proj[x], proj[z]} / proj[y] * 1000.0f;
+	res = (t_v2f){proj[x], -proj[y]} / proj[z] * 1000.0f;
 	return ((t_v2i){480 + res[x], 320 + res[y]});
 }
 
@@ -104,8 +104,8 @@ static inline t_tri	__full_proj(t_polygon poly, t_v3f cam_pos, t_v3f cam_rot)
 
 static inline void	__control(t_engine *eng, t_game *game, float et)
 {
-	t_v3f const	dir = {-sinf(game->cam_rot[1]), cosf(game->cam_rot[1]), 0.0f};
-	t_v3f const	off = {cosf(game->cam_rot[1]), sinf(game->cam_rot[1]), 0.0f};
+	t_v3f const	dir = {-sinf(game->cam_rot[y]), 0.0f, cosf(game->cam_rot[y])};
+	t_v3f const	off = {cosf(game->cam_rot[y]), 0.0f, sinf(game->cam_rot[y])};
 
 	if (eng->keys[MOVE_UP])
 		game->cam_pos += dir * 20.0f * et;
@@ -116,9 +116,9 @@ static inline void	__control(t_engine *eng, t_game *game, float et)
 	if (eng->keys[MOVE_LEFT])
 		game->cam_pos -= off * 20.0f * et;
 	if (eng->keys[XK_space])
-		game->cam_pos[z] -= 20.0f * et;
+		game->cam_pos[y] += 20.0f * et;
 	if (eng->keys[XK_Shift_L])
-		game->cam_pos[z] += 20.0f * et;
+		game->cam_pos[y] -= 20.0f * et;
 	if (eng->keys[XK_Left])
 		game->cam_rot[y] += et;
 	if (eng->keys[XK_Right])
@@ -128,11 +128,26 @@ static inline void	__control(t_engine *eng, t_game *game, float et)
 	if (eng->keys[XK_Down])
 		game->cam_rot[x] += et;
 	if (eng->keys[LEAN_LEFT])
-		game->cam_rot[z] = -0.25f;
-	else if (eng->keys[LEAN_RIGHT])
 		game->cam_rot[z] = 0.25f;
+	else if (eng->keys[LEAN_RIGHT])
+		game->cam_rot[z] = -0.25f;
 	else
 		game->cam_rot[z] = 0.0f;
+	if (game->eng->mouse[1])
+	{
+		t_v3f	bpos = game->cam_pos + (t_v3f){
+			-sinf(game->cam_rot[y]) * cosf(game->cam_rot[x]),
+			-sinf(game->cam_rot[x]),
+			cos(game->cam_rot[y]) * cosf(game->cam_rot[x])} * 5.0f;
+		game->polygons[game->length] = (t_polygon){
+			(t_v3f){bpos[x] - 0.1, bpos[y], bpos[z]},
+			(t_v3f){bpos[x] + 0.1, bpos[y] + 0.1, bpos[z]},
+			(t_v3f){bpos[x], bpos[y] - 0.1, bpos[z]}};
+		game->length++;
+	}
+	if (eng->keys[XK_r])
+		game->length = 40 * 40 * 2;
+	ft_put_nbr(eng, (t_v2i){0, 0}, game->length, 4);
 	//printf("cam_pos[%f:%f:%f]{%f,%f}\n", game->cam_pos[x], game->cam_pos[y], game->cam_pos[z], game->cam_rot[0], game->cam_rot[1]);
 }
 
@@ -156,8 +171,8 @@ static inline int	__loop(t_engine *eng, void *data, double et)
 		i++;
 	}
 	__control(eng, game, et);
-	game->cam_rot[y] -= ((float)eng->mouse_x - 480) / 10000.0f;
-	game->cam_rot[x] += ((float)eng->mouse_y - 320) / 10000.0f;
+	game->cam_rot[y] -= ((float)eng->mouse_x - 480) / 500.0f;
+	game->cam_rot[x] += ((float)eng->mouse_y - 320) / 500.0f;
 	mlx_mouse_move(eng->mlx, eng->win, 480, 320);
 	return (1);
 }

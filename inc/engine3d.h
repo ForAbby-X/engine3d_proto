@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 05:21:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/12 23:25:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:45:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_polygon
 typedef struct s_game
 {
 	t_engine	*eng;
-	t_polygon	polygons[4096];
+	t_polygon	polygons[4096 * 16];
 	t_length	length;
 	t_v3f		cam_rot;
 	t_v3f		cam_pos;

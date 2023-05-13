@@ -6,11 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:15:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/12 23:16:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:35:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifdef KEYS_WASD
+# ifdef KEYS_QWERTY
 #  define MOVE_UP XK_w
 #  define MOVE_DOWN XK_s
 #  define MOVE_LEFT XK_a
@@ -19,7 +19,7 @@
 #  define LEAN_RIGHT XK_e
 # endif
 
-# ifndef KEYS_WASD
+# ifndef KEYS_QWERTY
 #  define MOVE_UP XK_z
 #  define MOVE_DOWN XK_s
 #  define MOVE_LEFT XK_q
